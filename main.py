@@ -1,7 +1,7 @@
 import math
 
 #
-# All units are in meters, meters per second, or kilograms unless otherwise states
+# All units are in meters, meters per second, or kilograms unless otherwise stated
 #
 
 #position of the moon in terms of the angle relative to earth
@@ -68,7 +68,7 @@ while not stop:
     #add the net_vec to the satellites position
     satellite["cord"] = [satellite["cord"][0] + net_vec[0],satellite["cord"][1] + net_vec[1]]
 
-    #stops the simulation after a cretan number of seconds
+    #stops the simulation after a specified number of seconds
     if i > 1000000:
         stop = True
         print(i)
