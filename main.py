@@ -1,10 +1,11 @@
 import math
+import matplotlib.pyplot as plt
 
 #
 # All units are in meters, meters per second, or kilograms unless otherwise stated
 #
 
-#position of the moon in terms of the angle relative to earth
+#position of the moon in terms of the angle relative to earth in degrees
 moon_a = 0
 
 #list of orbital bodies
@@ -16,14 +17,14 @@ bodies = {"earth":{
             "gm":3.986004418e14, 
             "r":6378140},
          "moon":{
-            "cord":[math.cos(math.radians(moon_a))*384400000,math.sin(math.radians(moon_a))*384400000],
+            "cord":[math.cos(math.radians(moon_a))*384400000*1,math.sin(math.radians(moon_a))*384400000*1],
             "gm":4.90405745e12,
             "r":1737000}
         }
 #initial position of the satellite
 # "cord" is the x and y coordinates
 # "v" is the velocity vector in terms of the x and y component
-satellite = {"cord":[-6.378e6-80000,0],"v":[0,11000]}
+satellite = {"cord":[-6.378e6-80000,0],"v":[0,11004.3]}
 
 # list of coordinates to plot the path of satellite (in kilometers)
 plot_x=[]
@@ -69,7 +70,7 @@ while not stop:
     satellite["cord"] = [satellite["cord"][0] + net_vec[0],satellite["cord"][1] + net_vec[1]]
 
     #stops the simulation after a specified number of seconds
-    if i > 1000000:
+    if i > 10000000:
         stop = True
         print(i)
         plot_x.append(int(satellite["cord"][0])/1000)
@@ -103,3 +104,13 @@ f=open("plot.txt","w")
 for i in range(len(plot_x)):
     f.write(str(int(plot_x[i]))+" "+str(int(plot_y[i]))+"\n")
 f.close()
+
+#plots the path of the satellite
+#keep the scale of the x and y axis the same to prevent distortion
+plt.plot(plot_x,plot_y)
+plt.gca().set_aspect('equal', adjustable='box')
+#plot the earth in km
+plt.gca().add_artist(plt.Circle((0,0),6378,fill=False))
+#plot the moon in km
+plt.gca().add_artist(plt.Circle((bodies["moon"]["cord"][0]/1000,bodies["moon"]["cord"][1]/1000),1737,fill=False))
+plt.show()
